@@ -33,34 +33,19 @@ export class Game {
     }
 
     findFigureAt(boardPosition) {
-        let playerFiguresAtPosition = [];
         for (const player of this.players) {
-            let figure = player.figures.filter(figure => player.getBoardPosition(figure) === boardPosition);
-            console.log(figure.length);
-            if (figure.length === 0) {
-                continue;
-            }
-            playerFiguresAtPosition.push({ 
-                figure: {
-                    id: figure[0].id, 
-                    progress: figure[0].progress
-                }, 
-                player: {
-                    color: player.color, 
-                    connected: player.connected, 
-                    figures: player.figures.map(figure => ({id: figure.id, progress: figure.progress})),
-                    id: player.id,
-                    name: player.name,
-                    socketId: player.socketId,
-                    startIndex: player.startIndex
-                }
-            });
-            return playerFiguresAtPosition[0];
+        const figure = player.figures.find(f => player.getBoardPosition(f) === boardPosition);
+        if (figure) {
+            return { player, figure };
         }
+    }
         return null
     }
 
-    touch() {}
+    touch() {
+        this.updatedAt = new Date();
+        return this.updatedAt;
+    }
 
     start() {}
 
