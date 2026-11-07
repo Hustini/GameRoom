@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import { Figure } from "./Figure.js";
+import { Figure } from "../models/figure.js";
 
 describe("Figure", () => {
   describe("constructor", () => {

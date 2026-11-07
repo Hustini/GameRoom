@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
-import { Game } from "./Game.js";
-import { Player } from "./Player.js";
+import { Game } from "../models/game.js";
+import { Player } from "../models/player.js";
 
 describe("Game", () => {
   let game;

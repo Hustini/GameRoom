@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach } from "@jest/globals";
-import { Player } from "./Player.js";
-import { Figure } from "./Figure.js";
+import { Player } from "../models/player.js";
+import { Figure } from "../models/figure.js";
 
 describe("Player", () => {
   let red;   // start index 0
