@@ -7,4 +7,12 @@ export class Figure {
   isHome() {
     return this.progress === -1;
   }
+
+  isOnTrack() {
+    return this.progress >= 0 && this.progress < 40;
+  }
+
+  isInFinish() {
+    return this.progress >= 40 && this.progress <= 43;
+  }
 }
