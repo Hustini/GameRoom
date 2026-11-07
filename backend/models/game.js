@@ -24,9 +24,13 @@ export class Game {
         return this.players.find(player => player.id === playerId);
     }
 
-    getCurrentPlayer() {}
+    getCurrentPlayer() {
+        return this.players[0];
+    }
 
-    getOpponent(playerId) {}
+    getOpponent(playerId) {
+        return this.players.find(player => player.id !== playerId);
+    }
 
     findFigureAt(boardPosition) {}
 
