@@ -16,5 +16,12 @@ export class Figure {
         return this.progress >= 40 && this.progress <= 43;
     }
     
-    getTarget(dice) {}
+    getTarget(diceValue) {
+        let target = this.progress + diceValue;
+        if (target > 43) {
+            return null
+        } else {
+            return target;
+        }
+    }
 }
