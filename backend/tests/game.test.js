@@ -10,7 +10,7 @@ describe("Game", () => {
   beforeEach(() => {
     game = new Game("ABC123");
     red = new Player("p1", "Salih", "RED", 0);
-    green = new Player("p2", "Anna", "GREEN", 20);
+    green = new Player("p2", "Test", "GREEN", 20);
   });
 
   describe("constructor", () => {
