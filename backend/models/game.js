@@ -12,7 +12,13 @@ export class Game {
         this.updatedAt = new Date();
     }
 
-    addPlayer(player) {}
+    addPlayer(player) {
+        if (this.players.length >= 2) {
+            throw new Error("Game already has 2 players");
+        }
+        this.players.push(player);
+        return this.players;
+    }
 
     getPlayerById(playerId) {}
 
