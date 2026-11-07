@@ -20,7 +20,9 @@ export class Game {
         return this.players;
     }
 
-    getPlayerById(playerId) {}
+    getPlayerById(playerId) {
+        return this.players.find(player => player.id === playerId);
+    }
 
     getCurrentPlayer() {}
 
