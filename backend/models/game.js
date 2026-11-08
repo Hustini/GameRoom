@@ -106,9 +106,9 @@ export class Game {
     }
 
     moveFigure(playerId, figureId) {
-        let Player = this.getCurrentPlayer(playerId);
+        let player = this.getCurrentPlayer(playerId);
         let movableFigures = this.getMovableFigures(playerId);
-        let figureOfPlayer = Player.getFigure(figureId);
+        let figureOfPlayer = player.getFigure(figureId);
 
         // Error handling for invalid moves
         if (this.phase !== "MOVE" || movableFigures.length === 0) {
@@ -128,8 +128,8 @@ export class Game {
         }
 
         // check if the player has won
-        if (currentPlayer.hasWon()) {
-            this.winnerId = currentPlayer.id;
+        if (player.hasWon()) {
+            this.winnerId = player.id;
             this.status = "FINISHED";
             return;
         } else {
