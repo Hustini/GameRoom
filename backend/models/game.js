@@ -26,7 +26,7 @@ export class Game {
     }
 
     getCurrentPlayer() {
-        return this.players[0];
+        return this.players[this.currentPlayerIndex];
     }
 
     getOpponent(playerId) {
@@ -106,15 +106,15 @@ export class Game {
     }
 
     moveFigure(playerId, figureId) {
+        if (this.phase !== "MOVE" || this.getCurrentPlayer().id !== playerId) {
+            throw new Error("Game can only be moved in MOVE phase by the current player");
+        }
+
         let player = this.getCurrentPlayer(playerId);
         let movableFigures = this.getMovableFigures(playerId);
         let figureOfPlayer = player.getFigure(figureId);
         let target;
 
-        // Error handling for invalid moves
-        if (this.phase !== "MOVE" || movableFigures.length === 0) {
-            throw new Error("Game can only be moved in MOVE phase and if there are movable figures");
-        }
         if (!movableFigures.includes(figureOfPlayer)) {
             throw new Error("Selected figure cannot be moved");
         }
