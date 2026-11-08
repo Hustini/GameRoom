@@ -109,6 +109,7 @@ export class Game {
         let player = this.getCurrentPlayer(playerId);
         let movableFigures = this.getMovableFigures(playerId);
         let figureOfPlayer = player.getFigure(figureId);
+        let target;
 
         // Error handling for invalid moves
         if (this.phase !== "MOVE" || movableFigures.length === 0) {
@@ -122,10 +123,21 @@ export class Game {
         if (figureOfPlayer.isHome() && this.diceValue !== 6) {
             throw new Error("Cannot move a figure from home unless dice value is 6");
         } else if (figureOfPlayer.isHome() && this.diceValue === 6) {
-            figureOfPlayer.progress = 0;
+            target = 0;
         } else {
-            figureOfPlayer.progress = figureOfPlayer.getTarget(this.diceValue);
+            target = figureOfPlayer.getTarget(this.diceValue);
         }
+
+        // Check if the target position is occupied by opponent's figure
+        if (target < 40) {
+            let targetField = (player.startIndex + target) % 40;
+            let figureOnTargetField = this.findFigureAt(targetField);
+            if (figureOnTargetField && figureOnTargetField.player.id !== playerId) {
+                figureOnTargetField.figure.progress = -1;
+            }
+        }
+
+        figureOfPlayer.progress = target;
 
         // check if the player has won
         if (player.hasWon()) {
