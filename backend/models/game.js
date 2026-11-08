@@ -105,7 +105,12 @@ export class Game {
         return player.figures.filter(figure => !figure.isHome() && canMove(figure));
     }
 
-    moveFigure(playerId, figureId) {}
+    moveFigure(playerId, figureId) {
+        let movableFigures = this.getMovableFigures(playerId)
+        if (this.phase !== "MOVE" || this.movableFigures.length === 0) {
+            throw new Error("Game can only be moved in MOVE phase and if there are movable figures");
+        }
+    }
 
     endTurn() {
         if (this.diceValue === 6) {
