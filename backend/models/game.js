@@ -106,9 +106,25 @@ export class Game {
     }
 
     moveFigure(playerId, figureId) {
+        let currentPlayer = this.getCurrentPlayer(playerId);
         let movableFigures = this.getMovableFigures(playerId)
-        if (this.phase !== "MOVE" || this.movableFigures.length === 0) {
+
+        if (this.phase !== "MOVE" || movableFigures.length === 0) {
             throw new Error("Game can only be moved in MOVE phase and if there are movable figures");
+        }
+
+        let figure = currentPlayer.getFigure(figureId);
+        if (!figure) {
+            throw new Error("Figure not found");
+        }
+        figure.progress = figure.getTarget(this.diceValue);
+
+        if (currentPlayer.hasWon()) {
+            this.winnerId = currentPlayer.id;
+            this.status = "FINISHED";
+            return;
+        } else {
+            this.endTurn();
         }
     }
 
