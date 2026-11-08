@@ -81,7 +81,17 @@ export class Game {
 
     moveFigure(playerId, figureId) {}
 
-    endTurn() {}
+    endTurn() {
+        if (this.diceValue === 6) {
+            this.phase = "ROLL";
+        } else {
+            this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+            this.phase = "ROLL";
+        }
+
+        this.diceValue = null;
+        this.touch();
+    }
 
     toJSON() {
         return {
