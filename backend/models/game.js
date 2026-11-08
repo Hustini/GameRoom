@@ -4,7 +4,7 @@ export class Game {
     constructor(roomCode) {
         this.roomCode = roomCode;
         this.players = [];
-        currentPlayerIndex = 0;
+        this.currentPlayerIndex = 0;
         this.status = "WAITING";
         this.phase = "ROLL";
         this.diceValue = null;
@@ -35,11 +35,11 @@ export class Game {
 
     findFigureAt(boardPosition) {
         for (const player of this.players) {
-        const figure = player.figures.find(f => player.getBoardPosition(f) === boardPosition);
-        if (figure) {
-            return { player, figure };
+            const figure = player.figures.find(f => player.getBoardPosition(f) === boardPosition);
+            if (figure) {
+                return { player, figure };
+            }
         }
-    }
         return null
     }
 
@@ -52,15 +52,30 @@ export class Game {
         if (this.status !== "WAITING") {
             throw new Error("Wrong game status. Game can only be started from WAITING state");
         }
+
         if (this.players.length < 2) {
             throw new Error("Cannot start game with less than 2 players");
         }
+
         this.status = "PLAYING";
         this.phase = "ROLL";
         this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
     }
 
-    rollDice(playerId) {}
+    rollDice(playerId) {
+        if (this.status !== "PLAYING" || this.phase !== "ROLL" || this.getCurrentPlayer().id !== playerId) {
+            throw new Error("Game can only be rolled in PLAYING state and ROLL phase by the current player");
+        }
+
+        this.diceValue = Math.floor(Math.random() * 6) + 1;
+
+        let movaableFigures = this.getMovableFigures(playerId);
+        if (movaableFigures.length === 0) {
+            this.endTurn();
+        } else {
+            this.phase = "MOVE";
+        }
+    }
 
     getMovableFigures(playerId) {}
 
