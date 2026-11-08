@@ -4,6 +4,7 @@ export class Game {
     constructor(roomCode) {
         this.roomCode = roomCode;
         this.players = [];
+        currentPlayerIndex = 0;
         this.status = "WAITING";
         this.phase = "ROLL";
         this.diceValue = null;
@@ -47,7 +48,17 @@ export class Game {
         return this.updatedAt;
     }
 
-    start() {}
+    start() {
+        if (this.status !== "WAITING") {
+            throw new Error("Wrong game status. Game can only be started from WAITING state");
+        }
+        if (this.players.length < 2) {
+            throw new Error("Cannot start game with less than 2 players");
+        }
+        this.status = "PLAYING";
+        this.phase = "ROLL";
+        this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
+    }
 
     rollDice(playerId) {}
 
