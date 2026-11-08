@@ -77,7 +77,33 @@ export class Game {
         }
     }
 
-    getMovableFigures(playerId) {}
+    getMovableFigures(playerId) {
+        let player = this.getPlayerById(playerId);
+        let homeFigures = player.getFiguresAtHome();
+        let figureOnStart = player.getFigureOnStartField();
+
+        let canMove = (figure) => {
+            let target = figure.getTarget(this.diceValue);
+            if (target === null) {
+                return false;
+            }
+            // Check if the target position is occupied by own figure
+            return !player.figures.some(other => other !== figure && other.progress === target);
+        };
+
+        // If there are figures on home and starting is free, bring one out
+        if (this.diceValue === 6 && homeFigures.length > 0 && !figureOnStart) {
+            return homeFigures;
+        }
+
+        // If there are figures on home and a figure on start that can move, only that figure may move
+        if (homeFigures.length > 0 && figureOnStart && canMove(figureOnStart)) {
+            return [figureOnStart];
+        }
+
+        // Return all figures that can move
+        return player.figures.filter(figure => !figure.isHome() && canMove(figure));
+    }
 
     moveFigure(playerId, figureId) {}
 
