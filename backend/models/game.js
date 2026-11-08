@@ -69,8 +69,8 @@ export class Game {
 
         this.diceValue = Math.floor(Math.random() * 6) + 1;
 
-        let movaableFigures = this.getMovableFigures(playerId);
-        if (movaableFigures.length === 0) {
+        let movableFigures = this.getMovableFigures(playerId);
+        if (movableFigures.length === 0) {
             this.endTurn();
         } else {
             this.phase = "MOVE";
@@ -107,18 +107,27 @@ export class Game {
 
     moveFigure(playerId, figureId) {
         let currentPlayer = this.getCurrentPlayer(playerId);
-        let movableFigures = this.getMovableFigures(playerId)
+        let movableFigures = this.getMovableFigures(playerId);
+        let figure = currentPlayer.getFigure(figureId);
 
+        // Error handling for invalid moves
         if (this.phase !== "MOVE" || movableFigures.length === 0) {
             throw new Error("Game can only be moved in MOVE phase and if there are movable figures");
         }
-
-        let figure = currentPlayer.getFigure(figureId);
-        if (!figure) {
-            throw new Error("Figure not found");
+        if (!movableFigures.includes(figure)) {
+            throw new Error("Selected figure cannot be moved");
         }
-        figure.progress = figure.getTarget(this.diceValue);
 
+        // Bring out figure
+        if (figure.isHome() && this.diceValue !== 6) {
+            throw new Error("Cannot move a figure from home unless dice value is 6");
+        } else if (figure.isHome() && this.diceValue === 6) {
+            figure.progress = 0;
+        } else {
+            figure.progress = figure.getTarget(this.diceValue);
+        }
+
+        // check if the player has won
         if (currentPlayer.hasWon()) {
             this.winnerId = currentPlayer.id;
             this.status = "FINISHED";
