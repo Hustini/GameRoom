@@ -56,4 +56,18 @@ export class Game {
     moveFigure(playerId, figureId) {}
 
     endTurn() {}
+
+    toJSON() {
+        return {
+            roomCode: this.roomCode,
+            status: this.status,
+            phase: this.phase,
+            diceValue: this.diceValue,
+            winnerId: this.winnerId,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            players: this.players.map(player => player.toJSON()),
+            movableFigureIds: []
+        };
+    }
 }

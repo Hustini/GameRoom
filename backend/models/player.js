@@ -42,4 +42,18 @@ export class Player {
     hasWon() {
         return this.figures.every(figure => figure.isInFinish());
     }
+
+    toJSON() {
+        return {
+            id: this.id,
+            name: this.name,
+            color: this.color,
+            startIndex: this.startIndex,
+            connected: this.connected,
+            figures: this.figures.map(figure => ({
+                id: figure.id,
+                progress: figure.progress
+            }))
+        };
+    }
 }
